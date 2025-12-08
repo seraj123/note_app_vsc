@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/add_note_cubit/add_note_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'add_note_form.dart';
 
 class AddNotesBottomSheet extends StatelessWidget {
   const AddNotesBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      decoration:  BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius:BorderRadius.circular(16),
-                  gapPadding: 22
-                ),
-                focusColor: Colors.white,
-                fillColor: Colors.white,
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                hintText: "Add task here",
-
-
-              ),
+    return BlocProvider(
+      create: (context) => AddNoteCubit(),
+      child: BlocConsumer<AddNoteCubit, AddNoteState>(
+        listener: (context, state) {
+          if (state is AddNoteFailure) {
+            debugPrint("Failed ${state.errMessage}");
+          }
+          if (state is AddNoteSuccess) {
+            Navigator.pop(context);
+          }
+        },
+        builder: (context, state) {
+          return AbsorbPointer(
+            absorbing: state is AddNoteLoading ? true : false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SingleChildScrollView(child: const AddNoteForm()),
             ),
-          )
-        ],
+          );
+        },
       ),
     );
   }
