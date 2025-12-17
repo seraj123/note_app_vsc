@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class SimpleBlocObserver implements BlocObserver {
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-    debugPrint("change ${bloc.runtimeType} $Change");
+    debugPrint("change = $change");
   }
 
   @override
   void onClose(BlocBase<dynamic> bloc) {
-    // TODO: implement onClose
+    debugPrint("onClose = $bloc");
   }
 
   @override
   void onCreate(BlocBase<dynamic> bloc) {
-    // TODO: implement onCreate
+    debugPrint("onCreate = $bloc");
   }
 
   @override
